@@ -1,0 +1,57 @@
+<!doctype html>
+<head>
+<title>M</title>
+<script src='jquery-3.2.1.min.js'></script>
+</head>
+<body>
+<h1>Process</h1>
+<script type="text/javascript">
+function startAjax(url){
+  var request; 
+  if(window.XMLHttpRequest){ 
+      request = new XMLHttpRequest(); 
+  } else if(window.ActiveXObject){ 
+      request = new ActiveXObject("Microsoft.XMLHTTP");  
+  } else { 
+      return; 
+  } 
+  
+  request.onreadystatechange = function(){
+        switch (request.readyState) {
+          case 1: print_console("<br/><em>1: Prepare to sending...</em>"); break
+          case 2: print_console("<br/><em>2: Sent...</em>"); break
+          case 3: print_console("<br/><em>3: Change date running..</em>"); break
+          case 4:{
+           if(request.status==200){     
+                        print_console("<br/><em>4: Change date completed.</em>"); 
+                        document.getElementById("printResult").innerHTML = "<b>"+request.responseText+"</b>";
+                     }else if(request.status==404){
+                        alert("Error: script dont found!");
+                     }
+                      else alert("Error: request status: "+ request.status);
+           
+            break
+            }
+        }       
+    } 
+    request.open ('GET', url, true);
+    request.send (''); 
+  } 
+  function print_console(text){
+    document.getElementById("console").innerHTML += text; 
+  }
+</script>
+<button><a href="#" onclick="startAjax('handler_script.php');">PHP script start</a></button>
+<p></p>  
+<div id="console" style="border: 1px solid gray; width:250px; height: 110px; padding: 10px; background:lightgray;">
+Request console:
+</div>
+<br/>
+<div id="printResult">
+After click you will see server answer!
+</div>
+<script>
+$('body').css('backgroundColor'.'yellow')
+</script>
+</body>
+</html>
